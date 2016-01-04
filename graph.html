@@ -1,0 +1,150 @@
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="http://gitgraphjs.com/css/gitgraph.css" />
+
+</head>
+<body>
+<div>
+	<button id="branch-mode">Branch</button>
+	<button id="merge-mode">Merge</button>
+</div>
+<div>
+<canvas id="gitGraph"></canvas>
+</div>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="http://code.ringle.org/js/gitgraph.js"></script>
+<script>
+
+var currentState = 1;
+var mode = 'merge';
+$(function() {
+	$('#gitGraph').click(function(){
+		currentState++;
+		drawStep(currentState);
+	});
+	$('#branch-mode').click(function(){
+		mode = 'branch';
+		currentState = 1;
+		drawStep(currentState);
+	});
+	$('#merge-mode').click(function(){
+		mode = 'merge';
+		currentState = 1;
+		drawStep(currentState);
+	});
+
+	drawStep(currentState);
+});
+
+function drawStep(step){
+
+var graphConfig = new GitGraph.Template({
+    branch: {
+        color: "#000000",
+        lineWidth: 3,
+        spacingX: 60,
+        mergeStyle: "straight",
+        showLabel: true,                // display branch names on graph
+        labelFont: "normal 10pt Arial"
+    },
+    commit: {
+        spacingY: -30,
+        dot: {
+            size: 8,
+            strokeColor: "#000000",
+            strokeWidth: 4
+        },
+        tag: {
+            font: "normal 10pt Arial",
+            color: "yellow"
+        },
+        message: {
+            color: "black",
+            font: "normal 12pt Arial",
+            displayAuthor: false,
+            displayBranch: false,
+            displayHash: false,
+        }
+    },
+    arrow: {
+        size: 5,
+        offset: 3
+    }
+});
+
+var config = {
+  template: graphConfig,
+  mode: "extended",
+  orientation: "vertical"
+};
+
+var gitgraph = new GitGraph(config);
+
+	var master = gitgraph.branch("master");
+	var bamaster = gitgraph.branch("master");
+
+	if (mode == 'branch') {
+		var intStep = 1;
+		if (step >= intStep++) {
+			bamaster.commit({message:"Primer commit de l'exemple de branch"});
+			if (step >= intStep++) {
+				bamaster.commit({message:"Canvi directe a master"});
+				if (step >= intStep++) {
+					var bafeature1 = bamaster.branch("feature1").commit({message:"Es crea una branch per la feature 1"});
+
+					if (step >= intStep++) {
+						var bafeature2 = bamaster.branch("feature2").commit({message:"Es crea una altra branch per la feature 2 desde master"});
+						if (step >= intStep++) {
+							bamaster.commit({message:"Commit de hotfix a master"});
+							bafeature1.commit({message:"Continuem la feina a la feature 1"});
+							if (step >= intStep++) {
+								bamaster.commit({message:"Seguim fent fixs que l'hem liat molt"}).commit({message:"Sembla que ja esta arreglat"});
+
+								if (step >= intStep++) {
+									var bafeature22 = bafeature2.branch("feature2.2").commit({message:"Fem una prova a partir de la feature 2"});
+									if (step >= intStep++) {
+										bafeature2.commit({message:"Pero seguin treballant amb la feature 2"});
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+
+		}
+	} else if (mode == 'merge') {
+		var intStep = 1;
+		if (step >= intStep++) {
+			bamaster.commit({message:"Primer commit de l'exemple de merge"});
+			if (step >= intStep++) {
+				bamaster.commit({message:"Fem una mica de treball a master"});
+				
+				if (step >= intStep++) {
+					var bafeature1 = gitgraph.branch("feature 1").commit({message:"Creem una branch per la feature 1"});
+
+					if (step >= intStep++) {
+						bamaster.commit({message:"Pero a master continua la feina"});
+						if (step >= intStep++) {
+							bafeature1.commit({message:"Desenvolupem la feature 1"}).commit({message:"Acabem la feature 1"});
+							if (step >= intStep++) {
+								bafeature1.merge(bamaster);
+								if (step >= intStep++) {
+									bamaster.commit({message:"I ara ja tenim a master els canvis de la feature 1"});
+								}
+							}
+						}
+					}
+			}
+			}
+
+		}
+	}
+}
+/*
+Docu: http://gitgraphjs.com/
+Examples: http://code.ringle.org/gitflowsupport.html
+*/
+</script>
+</body>
+</html>
