@@ -21,8 +21,11 @@
 <script>
 
 var currentState = 1;
-var mode = 'merge';
+var mode = 'branch';
 $(function() {
+	if(window.location.hash) {
+		mode = window.location.hash.replace('#','');
+	}
 	$('#gitGraph').click(function(){
 		currentState++;
 		drawStep(currentState);
@@ -140,9 +143,27 @@ var gitgraph = new GitGraph(config);
 							}
 						}
 					}
+				}
 			}
-			}
+		}
+	} else if (mode == 'house-example') {
+		var intStep = 1;
+		if (step >= intStep++) {
+			bamaster.commit({message:" "});
+			if (step >= intStep++) {
+				bamaster.commit({message:" "});
+				
+				if (step >= intStep++) {
+					var bafeature1 = bamaster.branch("feature flors").commit({message:" "});
 
+					if (step >= intStep++) {
+						var bafeature2 = bamaster.branch("feature sol").commit({message:" "});
+						if (step >= intStep++) {
+							var bafeature3 = bamaster.branch("feature arbre").commit({message:" "});
+						}
+					}
+				}
+			}
 		}
 	}
 }
