@@ -9,4 +9,4 @@ Seminari impartit per Trovit durant els seminaris d'empresa 2016 a la Facultat d
 ## Material
 * Presentacions https://github.com/nmaletm/seminari-fib-2016/tree/master/Presentations
 * Projecte exemple conflict https://github.com/nmaletm/example-conflict
-* Graphs exmples http://nmaletm.github.io/git-presentation/graph.html
+* Graphs exmples http://nmaletm.github.io/seminari-fib-2016/graph.html
