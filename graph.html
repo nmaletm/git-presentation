@@ -20,8 +20,9 @@
 	</head>
 	<body class="simplePage">
 <div>
-	<button id="branch-mode">Branch</button>
-	<button id="merge-mode">Merge</button>
+	<button class="change-mode" data-mode="branch">Branch</button>
+	<button class="change-mode" data-mode="merge">Merge</button>
+	<button class="change-mode" data-mode="rebase">Rebase</button>
 </div>
 <div>
 <canvas id="gitGraph"></canvas>
@@ -37,11 +38,11 @@ var mode = 'branch';
 $(document).on( "keydown", function(event) {
     var keycode = (event.keyCode ? event.keyCode : event.which);
 	// Next
-	if(keycode == 34 || keycode = 37) {
+	if(keycode == 34 || keycode == 37) {
 		next();
 	}
 	// Back
-	if(keycode == 33 || keycode = 39) {
+	if(keycode == 33 || keycode == 39) {
 		back();
 	}
 });
@@ -53,13 +54,8 @@ $(function() {
 	$('#gitGraph').click(function(){
 		next();
 	});
-	$('#branch-mode').click(function(){
-		mode = 'branch';
-		currentState = 1;
-		drawStep(currentState);
-	});
-	$('#merge-mode').click(function(){
-		mode = 'merge';
+	$('.change-mode').click(function(){
+		mode = $(this).attr('data-mode');
 		currentState = 1;
 		drawStep(currentState);
 	});
