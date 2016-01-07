@@ -33,7 +33,8 @@
 var currentState = 1;
 var mode = 'branch';
 
-$(document).keypress(function(event) {
+//$(document).keypress(function(event) {
+$(document).on( "keydown", function(event) {
     var keycode = (event.keyCode ? event.keyCode : event.which);
 	// Next
 	if(keycode == 34) {
