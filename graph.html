@@ -37,11 +37,11 @@ var mode = 'branch';
 $(document).on( "keydown", function(event) {
     var keycode = (event.keyCode ? event.keyCode : event.which);
 	// Next
-	if(keycode == 34) {
+	if(keycode == 34 || keycode = 37) {
 		next();
 	}
 	// Back
-	if(keycode == 33) {
+	if(keycode == 33 || keycode = 39) {
 		back();
 	}
 });
