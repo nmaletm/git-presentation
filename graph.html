@@ -7,6 +7,16 @@
 		<meta name="description" content="Pagina  de  Storn.es"/>
 		<link href="http://www.storn.es/favicon.ico" rel="icon" type="image/x-icon" />
 		<link rel="stylesheet" type="text/css" media="all" href="http://tools.storn.es/estil.css" />
+<style>
+* {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+</style>
 	</head>
 	<body class="simplePage">
 <div>
@@ -22,13 +32,25 @@
 
 var currentState = 1;
 var mode = 'branch';
+
+$(document).keypress(function(event) {
+    var keycode = (event.keyCode ? event.keyCode : event.which);
+	// Next
+	if(keycode == 34) {
+		next();
+	}
+	// Back
+	if(keycode == 33) {
+		back();
+	}
+});
+
 $(function() {
 	if(window.location.hash) {
 		mode = window.location.hash.replace('#','');
 	}
 	$('#gitGraph').click(function(){
-		currentState++;
-		drawStep(currentState);
+		next();
 	});
 	$('#branch-mode').click(function(){
 		mode = 'branch';
@@ -44,6 +66,18 @@ $(function() {
 	drawStep(currentState);
 });
 
+function next(){
+	currentState++;
+	drawStep(currentState);
+}
+
+function back(){
+	if (currentState == 1) {
+		return;
+	}
+	currentState--;
+	drawStep(currentState);
+}
 function drawStep(step){
 
 var graphConfig = new GitGraph.Template({
