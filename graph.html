@@ -181,24 +181,37 @@ var gitgraph = new GitGraph(config);
 				}
 			}
 		}
-	} else if (mode == 'house-example') {
-		var intStep = 1;
-		if (step >= intStep++) {
+	} else if (mode == 'rebase') {
+		if (step <= 1) {
 			bamaster.commit({message:" "});
-			if (step >= intStep++) {
-				bamaster.commit({message:" "});
-				
-				if (step >= intStep++) {
-					var bafeature1 = bamaster.branch("feature flors").commit({message:" "});
+			bamaster.commit({message:" "});
 
-					if (step >= intStep++) {
-						var bafeature2 = bamaster.branch("feature sol").commit({message:" "});
-						if (step >= intStep++) {
-							var bafeature3 = bamaster.branch("feature arbre").commit({message:" "});
-						}
-					}
-				}
-			}
+			var bafeature1 = bamaster.branch("feature 1").commit({message:" "});
+		} else if (step == 2) {
+			bamaster.commit({message:" "});
+			bamaster.commit({message:" "});
+
+			var bafeature1 = bamaster.branch("feature 1").commit({message:" "});
+
+			bamaster.commit({message:" "});
+			bafeature1.commit({message:" "});
+			bamaster.commit({message:" "});
+			bamaster.commit({message:" "});
+			bamaster.commit({message:" "});
+			bamaster.commit({message:" "});
+		} else if (step >= 3) {
+			bamaster.commit({message:" "});
+			bamaster.commit({message:" "});
+
+			bamaster.commit({message:" "});
+			bamaster.commit({message:" "});
+			bamaster.commit({message:" "});
+			bamaster.commit({message:" "});
+			bamaster.commit({message:" "});
+
+			var bafeature1 = bamaster.branch("feature 1").commit({message:" "});
+			bafeature1.commit({message:" "});
+
 		}
 	}
 }
