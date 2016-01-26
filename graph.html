@@ -16,6 +16,16 @@
     -ms-user-select: none;
     user-select: none;
 }
+body{
+	overflow-x: hidden; 
+}
+#command{
+    font-family: Consolas, Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace, serif;
+	height: 60px;
+	padding-top: 30px;
+	padding-left: 30px;
+	font-size: x-large;
+}
 </style>
 	</head>
 	<body class="simplePage">
@@ -24,6 +34,9 @@
 	<button class="change-mode" data-mode="merge">Merge</button>
 	<button class="change-mode" data-mode="rebase">Rebase</button>
 	<button class="change-mode" data-mode="rebase-i">Rebase Interactive</button>
+</div>
+<div id="command">
+
 </div>
 <div>
 <canvas id="gitGraph"></canvas>
@@ -47,16 +60,6 @@ $(document).on( "keydown", function(event) {
 		back();
 	}
 });
-/*
-
-	// Next
-	if(keycode == 34 || keycode == 37) {
-		next();
-	}
-	// Back
-	if(keycode == 33 || keycode == 39) {
-		back();
-	}*/
 
 $(function() {
 	if(window.location.hash) {
@@ -133,8 +136,9 @@ var gitgraph = new GitGraph(config);
 	var master = gitgraph.branch("master");
 	var bamaster = gitgraph.branch("master");
 
+	$('#command').html('');
+	var intStep = 1;
 	if (mode == 'branch') {
-		var intStep = 1;
 		if (step >= intStep++) {
 			bamaster.commit({message:"Primer commit de l'exemple de branch"});
 			if (step >= intStep++) {
@@ -164,7 +168,6 @@ var gitgraph = new GitGraph(config);
 
 		}
 	} else if (mode == 'merge') {
-		var intStep = 1;
 		if (step >= intStep++) {
 			bamaster.commit({message:"Primer commit de l'exemple de merge"});
 			if (step >= intStep++) {
@@ -190,35 +193,39 @@ var gitgraph = new GitGraph(config);
 		}
 	} else if (mode == 'rebase') {
 		if (step <= 1) {
-			bamaster.commit({message:" "});
-			bamaster.commit({message:" "});
+			bamaster.commit({message:"Commit 1"});
+			bamaster.commit({message:"Commit 2"});
 
-			var bafeature1 = bamaster.branch("feature 1").commit({message:" "});
-		} else if (step == 2) {
-			bamaster.commit({message:" "});
-			bamaster.commit({message:" "});
+			var bafeature1 = bamaster.branch("feature 1").commit({message:"Commit feature 1.1"});
+		} else if (step == 2 || step == 3) {
+			bamaster.commit({message:"Commit 1"});
+			bamaster.commit({message:"Commit 2"});
 
-			var bafeature1 = bamaster.branch("feature 1").commit({message:" "});
+			var bafeature1 = bamaster.branch("feature 1").commit({message:"Commit feature 1.1"});
 
-			bamaster.commit({message:" "});
-			bafeature1.commit({message:" "});
-			bamaster.commit({message:" "});
-			bamaster.commit({message:" "});
-			bamaster.commit({message:" "});
-			bamaster.commit({message:" "});
-		} else if (step >= 3) {
-			bamaster.commit({message:" "});
-			bamaster.commit({message:" "});
+			bamaster.commit({message:"Commit 3"});
+			bafeature1.commit({message:"Commit feature 1.2"});
+			bamaster.commit({message:"Commit 4"});
+			bamaster.commit({message:"Commit 5"});
+			bamaster.commit({message:"Commit 6"});
+			bamaster.commit({message:"Commit 7"});
 
-			bamaster.commit({message:" "});
-			bamaster.commit({message:" "});
-			bamaster.commit({message:" "});
-			bamaster.commit({message:" "});
-			bamaster.commit({message:" "});
+			if (step == 3) {
+				$('#command').html('$ git rebase master');
+			}
 
-			var bafeature1 = bamaster.branch("feature 1").commit({message:" "});
-			bafeature1.commit({message:" "});
+		} else if (step == 4) {
+			bamaster.commit({message:"Commit 1"});
+			bamaster.commit({message:"Commit 2"});
 
+			bamaster.commit({message:"Commit 3"});
+			bamaster.commit({message:"Commit 4"});
+			bamaster.commit({message:"Commit 5"});
+			bamaster.commit({message:"Commit 6"});
+			bamaster.commit({message:"Commit 7"});
+
+			var bafeature1 = bamaster.branch("feature 1").commit({message:"Commit feature 1.1"});
+			bafeature1.commit({message:"Commit feature 1.2"});
 		}
 
 	} else if (mode == 'rebase-i') {
@@ -233,6 +240,7 @@ var gitgraph = new GitGraph(config);
 			bamaster.commit({message:"Commit 8"});
 			bamaster.commit({message:"Commit 9"});
 		} else if (step == 2) {
+			$('#command').html('$ git rebase -i COMMIT2');
 			bamaster.commit({message:"Commit 1"});
 			bamaster.commit({message:"Commit 2"});
 			bamaster.commit({message:"Commit 3, 4, 5 "});
@@ -241,6 +249,7 @@ var gitgraph = new GitGraph(config);
 			bamaster.commit({message:"Commit 8"});
 			bamaster.commit({message:"Commit 9"});
 		} else if (step == 3) {
+			$('#command').html('$ git rebase -i COMMIT7');
 			bamaster.commit({message:"Commit 1"});
 			bamaster.commit({message:"Commit 2"});
 			bamaster.commit({message:"Commit 3, 4, 5 "});
@@ -248,15 +257,13 @@ var gitgraph = new GitGraph(config);
 			bamaster.commit({message:"Commit 7"});
 			bamaster.commit({message:"Commit 8, 9"});
 		} else if (step >= 4) {
+			$('#command').html('$ git rebase -i COMMIT1');
 			bamaster.commit({message:"Commit 1"});
 			bamaster.commit({message:"Commit 3, 4, 5 "});
 			bamaster.commit({message:"Commit 6"});
 			bamaster.commit({message:"Commit 7"});
 			bamaster.commit({message:"Commit 8, 9"});
-
 		}
-
-		rebase-i
 	}}
 /*
 Docu: http://gitgraphjs.com/
