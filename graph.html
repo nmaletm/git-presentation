@@ -23,6 +23,7 @@
 	<button class="change-mode" data-mode="branch">Branch</button>
 	<button class="change-mode" data-mode="merge">Merge</button>
 	<button class="change-mode" data-mode="rebase">Rebase</button>
+	<button class="change-mode" data-mode="rebase-i">Rebase Interactive</button>
 </div>
 <div>
 <canvas id="gitGraph"></canvas>
@@ -38,14 +39,24 @@ var mode = 'branch';
 $(document).on( "keydown", function(event) {
     var keycode = (event.keyCode ? event.keyCode : event.which);
 	// Next
+	if(keycode == 34 || keycode == 39) {
+		next();
+	}
+	// Back
+	if(keycode == 33 || keycode == 37) {
+		back();
+	}
+});
+/*
+
+	// Next
 	if(keycode == 34 || keycode == 37) {
 		next();
 	}
 	// Back
 	if(keycode == 33 || keycode == 39) {
 		back();
-	}
-});
+	}*/
 
 $(function() {
 	if(window.location.hash) {
@@ -209,8 +220,44 @@ var gitgraph = new GitGraph(config);
 			bafeature1.commit({message:" "});
 
 		}
-	}
-}
+
+	} else if (mode == 'rebase-i') {
+		if (step <= 1) {
+			bamaster.commit({message:"Commit 1"});
+			bamaster.commit({message:"Commit 2"});
+			bamaster.commit({message:"Commit 3"});
+			bamaster.commit({message:"Commit 4"});
+			bamaster.commit({message:"Commit 5"});
+			bamaster.commit({message:"Commit 6"});
+			bamaster.commit({message:"Commit 7"});
+			bamaster.commit({message:"Commit 8"});
+			bamaster.commit({message:"Commit 9"});
+		} else if (step == 2) {
+			bamaster.commit({message:"Commit 1"});
+			bamaster.commit({message:"Commit 2"});
+			bamaster.commit({message:"Commit 3, 4, 5 "});
+			bamaster.commit({message:"Commit 6"});
+			bamaster.commit({message:"Commit 7"});
+			bamaster.commit({message:"Commit 8"});
+			bamaster.commit({message:"Commit 9"});
+		} else if (step == 3) {
+			bamaster.commit({message:"Commit 1"});
+			bamaster.commit({message:"Commit 2"});
+			bamaster.commit({message:"Commit 3, 4, 5 "});
+			bamaster.commit({message:"Commit 6"});
+			bamaster.commit({message:"Commit 7"});
+			bamaster.commit({message:"Commit 8, 9"});
+		} else if (step >= 4) {
+			bamaster.commit({message:"Commit 1"});
+			bamaster.commit({message:"Commit 3, 4, 5 "});
+			bamaster.commit({message:"Commit 6"});
+			bamaster.commit({message:"Commit 7"});
+			bamaster.commit({message:"Commit 8, 9"});
+
+		}
+
+		rebase-i
+	}}
 /*
 Docu: http://gitgraphjs.com/
 Examples: http://code.ringle.org/gitflowsupport.html
